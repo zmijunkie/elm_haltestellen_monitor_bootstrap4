@@ -71,7 +71,7 @@ type alias Model =
 
 type Msg
   = MorePlease
-  | StationsInfoIsLoaded (Result Http.Error AbfahrtenEnvelop)
+  | AbfahrtenEnvelopIsLoaded (Result Http.Error AbfahrtenEnvelop)
   | Toggle_ICE
   | Toggle_Zug
   | Toggle_Sbahn

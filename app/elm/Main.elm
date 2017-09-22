@@ -51,11 +51,11 @@ update msg model =
     Types.MorePlease ->
       (model, getAbfahrten model.stationId)
 
-    Types.StationsInfoIsLoaded (Ok abfahrtenEnvelop) ->
+    Types.AbfahrtenEnvelopIsLoaded (Ok abfahrtenEnvelop) ->
       ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )  model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
-    Types.StationsInfoIsLoaded (Err _) ->
-      (model, Cmd.none)
+    Types.AbfahrtenEnvelopIsLoaded (Err _) ->
+      ( { model | feedback = "Ein Fehler ist aufgetreten ..." }, Cmd.none)
 
     Types.Toggle_ICE ->
       (model, getAbfahrten model.stationId)

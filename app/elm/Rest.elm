@@ -80,7 +80,7 @@ getAbfahrten stationId =
         |> withTimeout (10 * Time.second)
         |> withExpect (Http.expectJson abfahrtenEnvelopDecoder)
         |> withCredentials
-        |> send Types.StationsInfoIsLoaded
+        |> send Types.AbfahrtenEnvelopIsLoaded
 
 --      |> withJsonBody (itemEncoder item)
 --      |> withHeader "Origin" "haltestellenmonitor.vrr.de"
