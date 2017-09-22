@@ -27,3 +27,5 @@ public/
 
 # Elm files
 elm-stuff/
+
+__pycache__/
