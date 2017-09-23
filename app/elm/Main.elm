@@ -46,6 +46,12 @@ main =
 -- UPDATE
 -- https://becoming-functional.com/http-error-checking-in-elm-fee8c4b68b7b
 
+
+toggleOptOutForKey: Dict.Dict String Bool -> String -> Dict.Dict String Bool
+toggleOptOutForKey optOut key =
+    Dict.update key (\_ -> Just ( (Dict.get key optOut)== Just(False) )) optOut
+
+
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
@@ -59,22 +65,22 @@ update msg model =
       ({ model | feedback = httpErrorString e }, Cmd.none)              
 
     Types.Toggle_ICE ->
-      (model, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId)
 
     Types.Toggle_Zug ->
-      (model, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stationId)
 
     Types.Toggle_Sbahn ->
-      (model, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stationId)
 
     Types.Toggle_Ubahn ->
-      (model, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stationId)
 
     Types.Toggle_Strassenbahn ->
-      (model, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stationId)
 
     Types.Toggle_Bus ->
-      (model, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId)
 
 
 
