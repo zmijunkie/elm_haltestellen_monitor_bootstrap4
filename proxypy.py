@@ -30,6 +30,7 @@ def abfahrten_for_station(arguments):
     reply = {}
     reply["headers"] = {}
     reply["status"] = {}
+    # must have parameter IMHO follow:
     stationId=arguments[b"stationId"].decode("utf-8") 
     transport=arguments[b"transport"].decode("utf-8")
     rowCount=arguments[b"rowCount"].decode("utf-8")

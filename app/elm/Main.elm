@@ -30,9 +30,10 @@ initialOptOut = Dict.fromList [
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
     ( Model 20000196 "Dortmund, Dorstfeld S"  (Abfahrten 20000196 "Dortmund, Dorstfeld S" [ ] ) initialOptOut "" ""
-    , getAbfahrten 20000825
+    , getAbfahrten 20000196
     )
 
+-- 20000825 Dorstfeld Süd
 
 main =
   Html.program
