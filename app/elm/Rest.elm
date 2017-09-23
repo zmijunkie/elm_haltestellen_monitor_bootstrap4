@@ -8,9 +8,6 @@ import HttpBuilder exposing (..)
 import Time
 import Http
 
--- import Json.Decode as Decode
-
-
 import Types exposing (AbfahrtenEnvelop,Stationsinfo,AbfahrtEnvelop,Abfahrten,Abfahrt,Msg)
 
 
@@ -22,52 +19,53 @@ stringIntDecoder =
 
 abfahrtenEnvelopDecoder : Decoder AbfahrtenEnvelop
 abfahrtenEnvelopDecoder =
-    Json.Decode.Pipeline.decode AbfahrtenEnvelop
-        |> Json.Decode.Pipeline.required "stationInfo" stationInfoDecoder
-        |> Json.Decode.Pipeline.required "stationId"   stringIntDecoder
-        |> Json.Decode.Pipeline.required "stationName" string
-        |> Json.Decode.Pipeline.required "abfahrten"   (Json.Decode.list abfahrtEnvelopDecoder)
+    decode AbfahrtenEnvelop
+        |> required "stationInfo" stationInfoDecoder
+        |> required "stationId"   stringIntDecoder
+        |> required "stationName" string
+        |> required "abfahrten"   (Json.Decode.list abfahrtEnvelopDecoder)
 
 
 stationInfoDecoder : Decoder Stationsinfo
 stationInfoDecoder =
-    Json.Decode.Pipeline.decode Stationsinfo
-        |> Json.Decode.Pipeline.required "sitzen"  string
-        |> Json.Decode.Pipeline.required "aufzug"  string
-        |> Json.Decode.Pipeline.required "automat" string
-        |> Json.Decode.Pipeline.required "treppe"  string
+    decode Stationsinfo
+        |> optional "sitzen"  string "keine Angaben"
+        |> optional "aufzug"  string "keine Angaben"
+        |> optional "automat" string "keine Angaben"
+        |> optional "treppe"  string "keine Angaben"
 
+-- https://github.com/NoRedInk/elm-decode-pipeline
 
 
 abfahrtEnvelopDecoder : Decoder AbfahrtEnvelop
 abfahrtEnvelopDecoder =
   decode AbfahrtEnvelop
-    |> Json.Decode.Pipeline.required "abfahrt" abfahrtDecoder
+    |> required "abfahrt" abfahrtDecoder
 
 
 abfahrtDecoder : Decoder Abfahrt
 abfahrtDecoder =
   decode Abfahrt
-    |> Json.Decode.Pipeline.required "hour" stringIntDecoder
-    |> Json.Decode.Pipeline.required "minute" stringIntDecoder
-    |> Json.Decode.Pipeline.required "delay" stringIntDecoder
-    |> Json.Decode.Pipeline.required "subname" string
-    |> Json.Decode.Pipeline.required "lineNumber" string
-    |> Json.Decode.Pipeline.required "lineCode" string
-    |> Json.Decode.Pipeline.required "direction" string
+    |> required "hour" stringIntDecoder
+    |> required "minute" stringIntDecoder
+    |> required "delay" stringIntDecoder
+    |> required "subname" string
+    |> required "lineNumber" string
+    |> required "lineCode" string
+    |> required "direction" string
 
 
 abfahrtenDecoder : Decoder Abfahrten
 abfahrtenDecoder =
-    Json.Decode.Pipeline.decode Abfahrten
-        |> Json.Decode.Pipeline.required "stationId" int
-        |> Json.Decode.Pipeline.required "stationName" string
-        |> Json.Decode.Pipeline.required "abfahrten" (Json.Decode.list abfahrtDecoder)
+    decode Abfahrten
+        |> required "stationId" int
+        |> required "stationName" string
+        |> required "abfahrten" (Json.Decode.list abfahrtDecoder)
 
---        |> Json.Decode.Pipeline.required "currentTime" int
---        |> Json.Decode.Pipeline.required "globalInfo" string
---        |> Json.Decode.Pipeline.required "currentTimeReal" int
---        |> Json.Decode.Pipeline.required "marquee" int
+--        |> required "currentTime" int
+--        |> required "globalInfo" string
+--        |> required "currentTimeReal" int
+--        |> required "marquee" int
 
 
 -- HTTP

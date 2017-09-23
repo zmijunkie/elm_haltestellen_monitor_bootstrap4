@@ -14,6 +14,7 @@ import Types exposing (Abfahrt,Abfahrten,Model,Msg)
 import View exposing (rootView)
 import Dict
 import List
+import HttpErrorString exposing (httpErrorString)
 
 initialOptOut : Dict.Dict String Bool
 initialOptOut = Dict.fromList [ 
@@ -29,7 +30,7 @@ initialOptOut = Dict.fromList [
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
     ( Model 20000196 "Dortmund, Dorstfeld S"  (Abfahrten 20000196 "Dortmund, Dorstfeld S" [ ] ) initialOptOut "" ""
-    , getAbfahrten 20000196
+    , getAbfahrten 20000825
     )
 
 
@@ -43,7 +44,7 @@ main =
 
 
 -- UPDATE
-
+-- https://becoming-functional.com/http-error-checking-in-elm-fee8c4b68b7b
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -54,8 +55,8 @@ update msg model =
     Types.AbfahrtenEnvelopIsLoaded (Ok abfahrtenEnvelop) ->
       ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )  model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
-    Types.AbfahrtenEnvelopIsLoaded (Err _) ->
-      ( { model | feedback = "Ein Fehler ist aufgetreten ..." }, Cmd.none)
+    Types.AbfahrtenEnvelopIsLoaded (Err e) ->
+      ({ model | feedback = httpErrorString e }, Cmd.none)              
 
     Types.Toggle_ICE ->
       (model, getAbfahrten model.stationId)
