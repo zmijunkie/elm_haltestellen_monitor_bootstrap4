@@ -70,11 +70,23 @@ abfahrtenDecoder =
 
 -- HTTP
 
+-- "departure" "stationId" (toString(stationId))
+-- "departure" "platformVisibility" "1"
+-- "departure" "transport" (transport)
+-- "departure" "useAllLines" "1"
+-- "departure" "rowCount"  (toString(batch))
+-- "departure" "distance"  (toString(distance))
+-- "departure" "marquee" "0"
 
 getAbfahrten : Int -> Cmd Msg
 getAbfahrten stationId =
     HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
-        |> withQueryParams [ ("stationId", (toString stationId) ) ]
+        |> withQueryParams [ ("stationId", (toString stationId) )
+                            ,("transport", ("1,2,3,4,5")) 
+                            ,("rowCount", (toString 10))
+                            ,("distance", (toString 0))
+                            ]
+                            
         |> withTimeout (10 * Time.second)
         |> withExpect (Http.expectJson abfahrtenEnvelopDecoder)
         |> withCredentials

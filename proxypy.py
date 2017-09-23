@@ -31,8 +31,11 @@ def abfahrten_for_station(arguments):
     reply["headers"] = {}
     reply["status"] = {}
     stationId=arguments[b"stationId"].decode("utf-8") 
+    transport=arguments[b"transport"].decode("utf-8")
+    rowCount=arguments[b"rowCount"].decode("utf-8")
+    distance=arguments[b"distance"].decode("utf-8")
 
-    status_code, reason, abfahrten=backend_abfahrten_for_station(stationId)
+    status_code, reason, abfahrten=backend_abfahrten_for_station(stationId,batch=rowCount,distance=distance,transport=transport)
 
     # https://stackoverflow.com/questions/10252010/serializing-python-object-instance-to-json    
     
