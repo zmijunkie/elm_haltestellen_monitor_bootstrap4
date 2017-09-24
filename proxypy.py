@@ -7,7 +7,8 @@ wget --no-check-certificate https://raw.githubusercontent.com/aymanfarhat/proxyp
 import json
 
 import sys
-sys.path.append("/Users/alex/Developer/TODO_API_Plone/haltestellenmonitor")
+python_path='/'.join(__file__.split('/')[:-1])+"/app/python"
+sys.path.append(python_path)
 
 from backend import headers,abfahrten_for_station as backend_abfahrten_for_station
 from stationsereignis import StationsereignisEncoder

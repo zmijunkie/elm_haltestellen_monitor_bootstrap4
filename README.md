@@ -1,20 +1,50 @@
-## Installation ##
-
+## Installation und Inbetriebnahme ##
 
 
 git clone https://github.com/zmijunkie/elm_haltestellen_monitor_bootstrap4.git
+cd elm_haltestellen_monitor_bootstrap4
 
 
-Python:
+1) Python:
 
-./server.py
+a) ein Kommandozeilentool zum Abfragen der VRR-API:
 
-Kann zur Zeit nicht starten - einige Python-Module habe ich noch nicht commited - kommt in Kürze.
-
-*WIRD BENÖTIGT FALLS IHR EUCH IN ELM ETWAS ANDERES ALS EINEN NETZWERKFEHLER ANSCHAUEN WOLLT ;-)  *
+./app/python/haltestellenmonitor.py --help
 
 
-Brunch:
+Eine Beispielabfrage:
+
+    ./app/python/haltestellenmonitor.py --stationId=20000131
+    Dortmund, Hbf {'info': 'dyn. Fahrgastinformation', 'aufzug': 'Aufzug', 'treppe': 'Fahrtreppe', 'wc': 'WC', 'sitzen': 'Sitzgelegenheiten', 'automat': 'Fahrscheinautomat'}
+    11:04h+5min | Bus 412/38012 -> Dortmund Fredenbaum
+    11:01h+1min | U-Bahn U41/36001 -> Dortmund Clarenberg
+
+
+
+b) ein Proxy der für die ELM-Anwendung auf http:localhost:5000 zur Verfügung steht:
+
+   (Ursprünglicher Grund: Cross-Site-Scripting ist ja nicht erlaubt, irgendeine
+    Art von Proxy muss da wohl her.)
+    
+    Eine Beispielsitzung:
+
+    ./server.py
+
+     * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+     * Restarting with stat
+     * Debugger is active!
+     * Debugger PIN: 828-548-476
+    Dortmund, Dorstfeld S {'aufzug': 'Aufzug', 'automat': 'Fahrscheinautomat', 'treppe': 'Fahrtreppe', 'sitzen': 'Sitzgelegenheiten'}
+    127.0.0.1 - - [24/Sep/2017 10:52:43] "POST /abfahrten_for_station?stationId=20000196&transport=1%2C2%2C3%2C4%2C5&rowCount=10&distance=0 HTTP/1.1" 200 -
+    127.0.0.1 - - [24/Sep/2017 10:59:21] "GET / HTTP/1.1" 304 -
+    127.0.0.1 - - [24/Sep/2017 10:59:21] "GET /css/app.css HTTP/1.1" 304 -
+    127.0.0.1 - - [24/Sep/2017 10:59:21] "GET /js/app.js HTTP/1.1" 304 -
+    127.0.0.1 - - [24/Sep/2017 10:59:21] "GET /js/main.js HTTP/1.1" 304 -
+    Dortmund, Dorstfeld S {'aufzug': 'Aufzug', 'automat': 'Fahrscheinautomat', 'treppe': 'Fahrtreppe', 'sitzen': 'Sitzgelegenheiten'}
+    127.0.0.1 - - [24/Sep/2017 10:59:23] "POST /abfahrten_for_station?stationId=20000196&transport=1%2C2%2C3%2C4%2C5&rowCount=10&distance=0 HTTP/1.1" 200 -
+
+
+2) Brunch + Elm 0.18 + Sass + Bootstrap 4
 
 brunch watch --server
 
@@ -30,7 +60,8 @@ Kompiliert alles einwandfrei auf dem Master-Branch (so mein Plan). Sieht dann so
 
 
 Das der Server auf 3333 läuft ist unnötig wir reden lieber mit dem Python-Server auf
-Port 5000 und starten deswegen mit der URL http://localhost:5000
+Port 5000 und starten deswegen mit der URL http://localhost:5000 die wir in 1b) gestartet
+haben. Brunch ist halt praktisch weil der kleinere Änderungen automatisch kompiliert.
 
 
 
