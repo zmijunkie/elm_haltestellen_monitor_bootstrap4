@@ -1,5 +1,6 @@
 ## Installation und Inbetriebnahme ##
 
+![Alt text](Bildschirmfoto.png?raw=true "Bildschirmfoto Haltestellenmonitor ELM")
 
 git clone https://github.com/zmijunkie/elm_haltestellen_monitor_bootstrap4.git
 cd elm_haltestellen_monitor_bootstrap4
