@@ -82,12 +82,12 @@ abfahrtenDecoder =
 -- "departure" "distance"  (toString(distance))
 -- "departure" "marquee" "0"
 
-getAbfahrten : Int -> List ( String, Bool ) -> Cmd Msg
-getAbfahrten stationId optOut =
+getAbfahrten : Int -> List ( String, Bool ) -> Dict.Dict String Bool -> Cmd Msg
+getAbfahrten stationId inititionalOptOutList optOut =
 
     let transport = 
         
-        String.join "," (List.map Tuple.first (List.filter Tuple.second (List.indexedMap (\i x -> ((toString (i+1)),Tuple.second x) ) optOut) ))
+        String.join "," (List.map Tuple.first (List.filter Tuple.second (List.indexedMap (\i x -> ((toString (i+1)),Tuple.second x) ) inititionalOptOutList) ))
 
     in
         HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
