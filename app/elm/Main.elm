@@ -74,22 +74,22 @@ update msg model =
       ({ model | feedback = httpErrorString e }, Cmd.none)              
 
     Types.Toggle_ICE ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId initialOptOutList Dict.empty)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId initialOptOutList model.optOut)
 
     Types.Toggle_Zug ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stationId initialOptOutList Dict.empty)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stationId initialOptOutList model.optOut)
 
     Types.Toggle_Sbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stationId initialOptOutList Dict.empty)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stationId initialOptOutList model.optOut)
 
     Types.Toggle_Ubahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stationId initialOptOutList Dict.empty)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stationId initialOptOutList model.optOut)
 
     Types.Toggle_Strassenbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stationId initialOptOutList Dict.empty)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stationId initialOptOutList model.optOut)
 
     Types.Toggle_Bus ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId initialOptOutList Dict.empty)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId initialOptOutList model.optOut)
 
 
 
