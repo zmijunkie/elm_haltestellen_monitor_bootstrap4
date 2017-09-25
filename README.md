@@ -75,3 +75,4 @@ LIZENZ: BSD - soweit verwendeter Sourcecode nicht eine restriktivere Lizenz hat 
 Some code borrowed from:
     
     https://becoming-functional.com/http-error-checking-in-elm-fee8c4b68b7b
+    https://medium.com/@blogscot/learning-elm-data-types-6a25420a1b7b

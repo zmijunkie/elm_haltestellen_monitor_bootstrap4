@@ -8,6 +8,10 @@ import HttpBuilder exposing (..)
 import Time
 import Http
 
+import List
+import String
+import Dict
+
 import Types exposing (AbfahrtenEnvelop,Stationsinfo,AbfahrtEnvelop,Abfahrten,Abfahrt,Msg)
 
 
@@ -78,19 +82,25 @@ abfahrtenDecoder =
 -- "departure" "distance"  (toString(distance))
 -- "departure" "marquee" "0"
 
-getAbfahrten : Int -> Cmd Msg
-getAbfahrten stationId =
-    HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
-        |> withQueryParams [ ("stationId", (toString stationId) )
-                            ,("transport", ("1,2,3,4,5")) 
-                            ,("rowCount", (toString 10))
-                            ,("distance", (toString 0))
-                            ]
-                            
-        |> withTimeout (10 * Time.second)
-        |> withExpect (Http.expectJson abfahrtenEnvelopDecoder)
-        |> withCredentials
-        |> send Types.AbfahrtenEnvelopIsLoaded
+getAbfahrten : Int -> List ( String, Bool ) -> Cmd Msg
+getAbfahrten stationId optOut =
 
---      |> withJsonBody (itemEncoder item)
---      |> withHeader "Origin" "haltestellenmonitor.vrr.de"
+    let transport = 
+        
+        String.join "," (List.map Tuple.first (List.filter Tuple.second (List.indexedMap (\i x -> ((toString (i+1)),Tuple.second x) ) optOut) ))
+
+    in
+        HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
+            |> withQueryParams [ ("stationId", (toString stationId) )
+                                ,("transport", transport) 
+                                ,("rowCount", (toString 10))
+                                ,("distance", (toString 0))
+                                ]
+                                
+            |> withTimeout (10 * Time.second)
+            |> withExpect (Http.expectJson abfahrtenEnvelopDecoder)
+            |> withCredentials
+            |> send Types.AbfahrtenEnvelopIsLoaded
+    
+    --      |> withJsonBody (itemEncoder item)
+    --      |> withHeader "Origin" "haltestellenmonitor.vrr.de"

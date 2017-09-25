@@ -16,8 +16,8 @@ import Dict
 import List
 import HttpErrorString exposing (httpErrorString)
 
-initialOptOut : Dict.Dict String Bool
-initialOptOut = Dict.fromList [ 
+initialOptOutList: List ( String, Bool )
+initialOptOutList = [ 
       ("transport_ice", True) 
     , ("transport_zug", True) 
     , ("transport_sbahn", True) 
@@ -26,11 +26,19 @@ initialOptOut = Dict.fromList [
     , ("transport_bus", True) 
     ]
 
+initialOptOut : Dict.Dict String Bool
+initialOptOut = Dict.fromList initialOptOutList
+
+-- String.join "," (List.map Tuple.first (List.filter Tuple.second (List.indexedMap (\i x -> ((toString (i+1)),Tuple.second x) ) initialOptOutList) ))
+-- "1,2,5" : String
+-- fuer
+-- initialOptOutList = [ ("transport_ice", True), ("transport_zug", True) , ("transport_sbahn", False) , ("transport_ubahn", False) , ("transport_strassenbahn", True) , ("transport_bus", False) ]
+        
 
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
     ( Model 20000196 "Dortmund, Dorstfeld S"  (Abfahrten 20000196 "Dortmund, Dorstfeld S" [ ] ) initialOptOut "" ""
-    , getAbfahrten 20000196
+    , getAbfahrten 20000196 initialOptOutList
     )
 
 -- 20000825 Dorstfeld Süd
@@ -57,7 +65,7 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     Types.MorePlease ->
-      (model, getAbfahrten model.stationId)
+      (model, getAbfahrten model.stationId initialOptOutList)
 
     Types.AbfahrtenEnvelopIsLoaded (Ok abfahrtenEnvelop) ->
       ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )  model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
@@ -66,22 +74,22 @@ update msg model =
       ({ model | feedback = httpErrorString e }, Cmd.none)              
 
     Types.Toggle_ICE ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId initialOptOutList)
 
     Types.Toggle_Zug ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stationId initialOptOutList)
 
     Types.Toggle_Sbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stationId initialOptOutList)
 
     Types.Toggle_Ubahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stationId initialOptOutList)
 
     Types.Toggle_Strassenbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stationId initialOptOutList)
 
     Types.Toggle_Bus ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId initialOptOutList)
 
 
 
