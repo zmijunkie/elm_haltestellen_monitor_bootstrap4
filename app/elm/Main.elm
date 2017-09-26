@@ -37,8 +37,8 @@ initialOptOut = Dict.fromList initialOptOutList
 
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
-    ( Model 20000196 "Dortmund, Dorstfeld S"  (Abfahrten 20000196 "Dortmund, Dorstfeld S" [ ] ) initialOptOut "" ""
-    , getAbfahrten 20000196 initialOptOutList Dict.empty
+    ( Model 20000131 "Dortmund, Hbf"  (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) initialOptOut "" ""
+    , getAbfahrten 20000131 initialOptOutList initialOptOut
     )
 
 -- 20000825 Dorstfeld Süd
@@ -74,22 +74,22 @@ update msg model =
       ({ model | feedback = httpErrorString e }, Cmd.none)              
 
     Types.Toggle_ICE ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId initialOptOutList model.optOut)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_ice" ))
 
     Types.Toggle_Zug ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stationId initialOptOutList model.optOut)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_zug" ))
 
     Types.Toggle_Sbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stationId initialOptOutList model.optOut)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_sbahn" ))
 
     Types.Toggle_Ubahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stationId initialOptOutList model.optOut)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_ubahn" ))
 
     Types.Toggle_Strassenbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stationId initialOptOutList model.optOut)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_strassenbahn" ))
 
     Types.Toggle_Bus ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId initialOptOutList model.optOut)
+      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_bus"))
 
 
 

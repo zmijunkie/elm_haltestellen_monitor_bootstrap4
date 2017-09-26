@@ -87,7 +87,7 @@ abfahrtenDecoder =
 elementIndexesWhichHaveTupleSecondSetToTrueInDict: Dict.Dict String Bool -> List ( String, Bool ) -> List String
 elementIndexesWhichHaveTupleSecondSetToTrueInDict aDict aList =
     --von diesen nur die in aDict gewählten: (1,"transport_bus", 2,"transport_ice", )
-    List.map Tuple.first (List.filter (\x ->(Maybe.withDefault False ( Dict.get (Tuple.second x) aDict))) (List.indexedMap (\i x -> ((toString (i+1)),Tuple.first x) ) aList)  ) 
+    List.map Tuple.first (List.filter (\x ->(Maybe.withDefault False ( Dict.get (Tuple.second x) aDict))) (List.indexedMap (\i x -> ((toString i),Tuple.first x) ) aList)  ) 
 
 getAbfahrten : Int -> List ( String, Bool ) -> Dict.Dict String Bool -> Cmd Msg
 getAbfahrten stationId inititionalOptOutList optOutDict =
