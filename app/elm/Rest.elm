@@ -11,6 +11,7 @@ import Http
 import List
 import String
 import Dict
+import Maybe
 
 import Types exposing (AbfahrtenEnvelop,Stationsinfo,AbfahrtEnvelop,Abfahrten,Abfahrt,Msg)
 
@@ -82,12 +83,18 @@ abfahrtenDecoder =
 -- "departure" "distance"  (toString(distance))
 -- "departure" "marquee" "0"
 
+-- Argument aList zB.: [("transport_bus",False),("transport_ice",True),("transport_sbahn",False),("transport_strassenbahn",True),("transport_ubahn",False),("transport_zug",True)]
+elementIndexesWhichHaveTupleSecondSetToTrueInDict: Dict.Dict String Bool -> List ( String, Bool ) -> List String
+elementIndexesWhichHaveTupleSecondSetToTrueInDict aDict aList =
+    --von diesen nur die in aDict gewählten: (1,"transport_bus", 2,"transport_ice", )
+    List.map Tuple.first (List.filter (\x ->(Maybe.withDefault False ( Dict.get (Tuple.second x) aDict))) (List.indexedMap (\i x -> ((toString (i+1)),Tuple.first x) ) aList)  ) 
+
 getAbfahrten : Int -> List ( String, Bool ) -> Dict.Dict String Bool -> Cmd Msg
-getAbfahrten stationId inititionalOptOutList optOut =
+getAbfahrten stationId inititionalOptOutList optOutDict =
 
     let transport = 
         
-        String.join "," (List.map Tuple.first (List.filter Tuple.second (List.indexedMap (\i x -> ((toString (i+1)),Tuple.second x) ) inititionalOptOutList) ))
+        String.join ","  (elementIndexesWhichHaveTupleSecondSetToTrueInDict optOutDict inititionalOptOutList)
 
     in
         HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
