@@ -59,7 +59,7 @@ renderAbfahrt index a =
     th [ scope "row" ]
        [ text (toString(index+1)) ]
     , td  [class "hour"]
-         [(text (toString (a.hour) ++ ":" ++ toString (a.minute)  ++ "h" )   ) ]
+         [(text (toString (a.hour) ++ ":" ++ toString (a.minute)  ++ "h" ++ "+" ++ toString (a.delay) ++ "min" )   ) ]
     , td [class "subname"]
        [(text (a.subname))]
     , td [class "lineCode"]
