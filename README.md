@@ -47,22 +47,19 @@ b) ein Proxy der für die ELM-Anwendung auf http:localhost:5000 zur Verfügung s
 
 2) Brunch + Elm 0.18 + Sass + Bootstrap 4
 
-brunch watch --server
+brunch watch
 
 Kompiliert alles einwandfrei auf dem Master-Branch (so mein Plan). Sieht dann so aus:
 
-        brunch watch --server
-        08:56:54 - info: application started on http://localhost:3333/
-        Elm compile: app/elm/Main.elm, to public/js/main.js
-        08:56:56 - info: compiled 8 files into 2 files, copied 2 in 3.0 sec
-        Elm compile: app/elm/Main.elm, to public/js/main.js
-        08:57:49 - info: compiled Main.elm and 6 cached files into app.js in 595 ms
+        brunch watch
+            Elm compile: app/elm/Main.elm, to public/js/main.js
+            11:19:54 - info: compiled 9 files into 2 files, copied 2 in 2.9 sec
+            Elm compile: app/elm/Main.elm, to public/js/main.js
+            11:20:28 - info: compiled Main.elm and 7 cached files into app.js in 652 ms
 
 
 
-Das der Server auf 3333 läuft ist unnötig wir reden lieber mit dem Python-Server auf
-Port 5000 und starten deswegen mit der URL http://localhost:5000 die wir in 1b) gestartet
-haben. Brunch ist halt praktisch weil der kleinere Änderungen automatisch kompiliert.
+Brunch ist praktisch weil der kleinere Änderungen automatisch kompiliert.
 
 
 
