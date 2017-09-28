@@ -10,7 +10,7 @@ httpErrorString error =
         Timeout ->
             "Http Timeout"
         NetworkError ->
-            "Network Error"
+            "Netzwerkfehler  - ich erreiche den Abfrageserver nicht"
         BadStatus response ->
             "Bad Http Status: " ++ toString response.status.code
         BadPayload message response ->

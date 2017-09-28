@@ -15,6 +15,7 @@ import View exposing (rootView)
 import Dict
 import List
 import HttpErrorString exposing (httpErrorString)
+import Time exposing (Time, minute)
 
 initialOptOutList: List ( String, Bool )
 initialOptOutList = [ 
@@ -91,16 +92,14 @@ update msg model =
     Types.Toggle_Bus ->
       ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_bus"))
 
-
+    Types.Tick _ ->
+      ( { model | feedback = "Aktualisierung ..." },  getAbfahrten model.stationId initialOptOutList model.optOut)
 
 -- SUBSCRIPTIONS
-
+-- https://github.com/aeveris/super-spotlight/blob/312b59b5ed3e3256caac2f6bfb19d227a3ef6e9f/src/Main.elm#L89
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
-
-
-
+  Time.every (minute*1) Types.Tick
 
 

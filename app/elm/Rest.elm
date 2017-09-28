@@ -84,8 +84,8 @@ abfahrtenDecoder =
 -- "departure" "marquee" "0"
 
 -- Argument aList zB.: [("transport_bus",False),("transport_ice",True),("transport_sbahn",False),("transport_strassenbahn",True),("transport_ubahn",False),("transport_zug",True)]
-elementIndexesWhichHaveTupleSecondSetToTrueInDict: Dict.Dict String Bool -> List ( String, Bool ) -> List String
-elementIndexesWhichHaveTupleSecondSetToTrueInDict aDict aList =
+elementIndexesInListWhichHaveTupleSecondSetToTrueInDict: Dict.Dict String Bool -> List ( String, Bool ) -> List String
+elementIndexesInListWhichHaveTupleSecondSetToTrueInDict aDict aList =
     --von diesen nur die in aDict gewählten: (1,"transport_bus", 2,"transport_ice", )
     List.map Tuple.first (List.filter (\x ->(Maybe.withDefault False ( Dict.get (Tuple.second x) aDict))) (List.indexedMap (\i x -> ((toString i),Tuple.first x) ) aList)  ) 
 
@@ -94,7 +94,7 @@ getAbfahrten stationId inititionalOptOutList optOutDict =
 
     let transport = 
         
-        String.join ","  (elementIndexesWhichHaveTupleSecondSetToTrueInDict optOutDict inititionalOptOutList)
+        String.join ","  (elementIndexesInListWhichHaveTupleSecondSetToTrueInDict optOutDict inititionalOptOutList)
 
     in
         HttpBuilder.post "http://localhost:5000/abfahrten_for_station"

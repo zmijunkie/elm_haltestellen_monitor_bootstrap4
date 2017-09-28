@@ -3,6 +3,7 @@ module Types exposing (AbfahrtenEnvelop,Abfahrten,Stationsinfo,AbfahrtEnvelop,Ab
 
 import Http
 import Dict
+import Time exposing (Time)
 
 type alias AbfahrtenEnvelop =
     { stationInfo : Stationsinfo
@@ -70,7 +71,8 @@ type alias Model =
 
 
 type Msg
-  = MorePlease
+  = Tick Time
+  | MorePlease
   | AbfahrtenEnvelopIsLoaded (Result Http.Error AbfahrtenEnvelop)
   | Toggle_ICE
   | Toggle_Zug
