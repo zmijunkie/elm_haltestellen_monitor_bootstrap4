@@ -8,6 +8,9 @@
 
 -- starten mit elm-reactor
 
+-- npm install popper.js --save
+
+
 import Html
 import Rest exposing (abfahrtDecoder,abfahrtenDecoder,getAbfahrten)
 import Types exposing (Abfahrt,Abfahrten,Model,Msg)
@@ -72,7 +75,10 @@ update msg model =
       ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )  model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
     Types.AbfahrtenEnvelopIsLoaded (Err e) ->
-      ({ model | feedback = httpErrorString e }, Cmd.none)              
+      ({ model | feedback = httpErrorString e }, Cmd.none) 
+      
+    Types.BatchDropDownSelected ->
+      ({ model | feedback = "BatchDropDownSelected ..."}, Cmd.none) 
 
     Types.Toggle_ICE ->
       ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stationId initialOptOutList (toggleOptOutForKey model.optOut "transport_ice" ))

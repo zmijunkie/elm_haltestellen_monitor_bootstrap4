@@ -10,6 +10,7 @@ import Types exposing (Abfahrt,Model,Msg)
 
 import Dict
 import Maybe
+-- import Json
 
 show_alert_if_text : String -> Html msg
 show_alert_if_text someText =
@@ -52,6 +53,41 @@ checkbox msg name state =
     ]
 
 
+
+renderNumber : Int -> String
+renderNumber i =
+    if i <10 then ("0" ++ (toString i)) else (toString i)
+        
+    
+
+renderBatchdropdown : msg -> List Int -> Html msg
+renderBatchdropdown msg batchsizeList =
+    div [ class "dropdown" ]
+        [ button [ attribute "aria-expanded" "false", attribute "aria-haspopup" "true", class "btn btn-secondary dropdown-toggle", attribute "data-toggle" "dropdown", id "dropdownMenuButton", type_ "button" ]
+            [ text "10" ]
+        , div [ attribute "aria-labelledby" "dropdownMenuButton", class "dropdown-menu" ]
+            [ a [ class "dropdown-item", href "#" ]
+                [ text "20" ]
+            , a [ class "dropdown-item", href "#" ]
+                [ text "50" ]
+            ]
+        ]
+
+
+-- , div [ attribute "aria-labelledby" "dropdownMenuButton", class "dropdown-menu" , on "change" (Json.Decode.map BatchDropDownSelected targetValueDecoder)]
+
+--targetValueDecoder : Json.Decode.Decoder Role
+--targetValueDecoder =
+--  targetValue |> Json.Decode.andThen (\val ->
+--    case val of
+--      "Admin" -> Json.Decode.succeed Admin
+--      "User" -> Json.Decode.succeed User
+--      "None" -> Json.Decode.succeed None
+--      _ -> Json.Decode.fail ("Invalid Role: " ++ val)
+--      
+--    )
+ 
+
 renderAbfahrt : Int -> Abfahrt -> Html Msg
 renderAbfahrt index a =
     tr []
@@ -59,7 +95,7 @@ renderAbfahrt index a =
     th [ scope "row" ]
        [ text (toString(index+1)) ]
     , td  [class "hour"]
-         [(text (toString (a.hour) ++ ":" ++ toString (a.minute)  ++ "h" ++ "+" ++ toString (a.delay) ++ "min" )   ) ]
+         [(text (renderNumber (a.hour) ++ ":" ++ renderNumber (a.minute)  ++ "h" ++ "+" ++ renderNumber (a.delay) ++ "min" )   ) ]
     , td [class "subname"]
        [(text (a.subname))]
     , td [class "lineCode"]
@@ -75,7 +111,7 @@ renderAbfahrten abfahrten =
         [ thead []
             [ tr []
                 [ th []
-                    [ text "#" ]
+                    [ renderBatchdropdown Types.BatchDropDownSelected  [10,20,50]  ]
                 , th []
                     [ text "Uhrzeit" ]
                 , th []

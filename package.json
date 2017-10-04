@@ -1,22 +1,25 @@
 {
-  "name": "your-app",
+  "name": "haltestellenmonitor-app",
   "description": "Description",
-  "author": "Your Name",
+  "author": "Sascha Gresk",
   "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": ""
   },
   "scripts": {
-    "start": "brunch watch --server",
+    "start": "brunch watch",
     "prod": "brunch build --production"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.5"
+  },
   "devDependencies": {
     "auto-reload-brunch": "^2.0.0",
     "babel-brunch": "~6.0.0",
     "babel-preset-es2015": "~6.22.0",
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap": "^4.0.0-beta",
     "brunch": "^2.4.0",
     "clean-css-brunch": "^2.0.0",
     "css-brunch": "^2.0.0",

@@ -73,6 +73,7 @@ type alias Model =
 type Msg
   = Tick Time
   | MorePlease
+  | BatchDropDownSelected 
   | AbfahrtenEnvelopIsLoaded (Result Http.Error AbfahrtenEnvelop)
   | Toggle_ICE
   | Toggle_Zug
