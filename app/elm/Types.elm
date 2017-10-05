@@ -74,6 +74,7 @@ type Msg
   = Tick Time
   | MorePlease
   | BatchDropDownSelected 
+  | UserTypedStationName String
   | AbfahrtenEnvelopIsLoaded (Result Http.Error AbfahrtenEnvelop)
   | Toggle_ICE
   | Toggle_Zug

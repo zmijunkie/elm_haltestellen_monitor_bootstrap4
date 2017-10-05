@@ -71,6 +71,9 @@ update msg model =
     Types.MorePlease ->
       (model, getAbfahrten model.stationId initialOptOutList Dict.empty)
 
+    Types.UserTypedStationName someStationName ->
+      ({ model | feedback = "Ihre Eingabe:" ++ someStationName}, Cmd.none)
+
     Types.AbfahrtenEnvelopIsLoaded (Ok abfahrtenEnvelop) ->
       ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )  model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 

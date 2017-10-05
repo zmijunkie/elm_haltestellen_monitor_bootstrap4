@@ -2,7 +2,7 @@ module View exposing (rootView)
 
 import Html exposing (Html, div, h1, text, p, a, hr, input,span, li, ul, dl, ol, button, label, strong, td, th, tr, tbody, thead, table)
 import Html.Attributes exposing (class,attribute,href,type_,placeholder,id, checked, scope )
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick,onInput)
 
 -- import State exposing (..)
 import Types exposing (Abfahrt,Model,Msg)
@@ -145,12 +145,12 @@ rootView model =
         , hr [ class "my-4" ]
             []
         , p []
-            [ text "Geben Sie die Haltestelle ein!" ]
+            [ text "Geben Sie die Haltestelle ein!" ] 
             
         , div [ class "input-group input-group-lg" ]
             [ span [ class "input-group-addon", id "sizing-addon1" ]
                 [ text "Von" ]
-            , input [ attribute "aria-describedby" "sizing-addon1", class "form-control", placeholder model.stationName, Html.Attributes.type_ "text" ]
+            , input [ onInput Types.UserTypedStationName, attribute "aria-describedby" "sizing-addon1", class "form-control", placeholder model.stationName, Html.Attributes.type_ "text" ]
                 []
             ]            
 
