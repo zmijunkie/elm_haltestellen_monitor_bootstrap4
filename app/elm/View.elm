@@ -10,6 +10,7 @@ import Types exposing (Abfahrt,Model,Msg)
 
 import Dict
 import Maybe
+import List
 -- import Json
 
 show_alert_if_text : String -> Html msg
@@ -58,19 +59,26 @@ renderNumber : Int -> String
 renderNumber i =
     if i <10 then ("0" ++ (toString i)) else (toString i)
         
+
+
+renderDropdownItem : Int -> Html Msg
+renderDropdownItem number =
+    a [ class "dropdown-item", href "#" ]
+                [ text (toString number) ]
     
 
-renderBatchdropdown : msg -> List Int -> Html msg
-renderBatchdropdown msg batchsizeList =
+renderBatchdropdown : msg -> Int -> List Int -> Html Msg
+renderBatchdropdown msg rowCount listOfPossibleRowCounts =
     div [ class "dropdown" ]
-        [ button [ attribute "aria-expanded" "false", attribute "aria-haspopup" "true", class "btn btn-secondary dropdown-toggle", attribute "data-toggle" "dropdown", id "dropdownMenuButton", type_ "button" ]
-            [ text "10" ]
+        [ button [ attribute "aria-expanded" "false", 
+                   attribute "aria-haspopup" "true", 
+                   class "btn btn-secondary dropdown-toggle", 
+                   attribute "data-toggle" "dropdown", 
+                   id "dropdownMenuButton", type_ "button" ]
+            [ text (toString rowCount) ] 
         , div [ attribute "aria-labelledby" "dropdownMenuButton", class "dropdown-menu" ]
-            [ a [ class "dropdown-item", href "#" ]
-                [ text "20" ]
-            , a [ class "dropdown-item", href "#" ]
-                [ text "50" ]
-            ]
+
+            (List.map renderDropdownItem (List.filter (\x ->(x/=rowCount)) listOfPossibleRowCounts))
         ]
 
 
@@ -111,7 +119,7 @@ renderAbfahrten abfahrten =
         [ thead []
             [ tr []
                 [ th []
-                    [ renderBatchdropdown Types.BatchDropDownSelected  [10,20,50]  ]
+                    [ renderBatchdropdown Types.BatchDropDownSelected 20 [10,20,50]  ]
                 , th []
                     [ text "Uhrzeit" ]
                 , th []

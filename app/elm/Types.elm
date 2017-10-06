@@ -60,6 +60,8 @@ type alias Model =
   { stationId : Int          -- besser:  , stations  : List Station
   , stationName : String
   , abfahrten : Abfahrten
+  , rowCount : Int
+  , listOfPossibleRowCounts : List Int
   , optOut : Dict.Dict String Bool 
   , lastQuery : String
   , feedback : String

@@ -5,10 +5,8 @@
 -- elm package install lukewestby/elm-http-builder / Video: https://elmseeds.thaterikperson.com/http-builder
 -- elm package install NoRedInk/elm-decode-pipeline
 -- elm package install JeremyBellows/elm-bootstrapify
-
--- starten mit elm-reactor
-
 -- npm install popper.js --save
+-- elm package install MadonnaMat/elm-select-two/latest
 
 
 import Html
@@ -19,6 +17,7 @@ import Dict
 import List
 import HttpErrorString exposing (httpErrorString)
 import Time exposing (Time, minute)
+import SelectTwo exposing (update)
 
 initialOptOutList: List ( String, Bool )
 initialOptOutList = [ 
@@ -41,7 +40,7 @@ initialOptOut = Dict.fromList initialOptOutList
 
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
-    ( Model 20000131 "Dortmund, Hbf"  (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) initialOptOut "" ""
+    ( Model 20000131 "Dortmund, Hbf"  (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) 10 [10,20,50] initialOptOut "" ""
     , getAbfahrten 20000131 initialOptOutList initialOptOut
     )
 
@@ -75,7 +74,7 @@ update msg model =
       ({ model | feedback = "Ihre Eingabe:" ++ someStationName}, Cmd.none)
 
     Types.AbfahrtenEnvelopIsLoaded (Ok abfahrtenEnvelop) ->
-      ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )  model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
+      ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) ) 10 [10,20,50] model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
     Types.AbfahrtenEnvelopIsLoaded (Err e) ->
       ({ model | feedback = httpErrorString e }, Cmd.none) 
