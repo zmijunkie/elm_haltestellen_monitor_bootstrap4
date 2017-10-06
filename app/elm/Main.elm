@@ -40,7 +40,7 @@ initialOptOut = Dict.fromList initialOptOutList
 
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
-    ( Model 20000131 "Dortmund, Hbf"  (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) 10 [10,20,50] initialOptOut "" ""
+    ( Model 20000131 "Dortmund, Hbf"  (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) 10 [10,20,50,100] initialOptOut "" ""
     , getAbfahrten 20000131 initialOptOutList initialOptOut
     )
 
@@ -74,7 +74,7 @@ update msg model =
       ({ model | feedback = "Ihre Eingabe:" ++ someStationName}, Cmd.none)
 
     Types.AbfahrtenEnvelopIsLoaded (Ok abfahrtenEnvelop) ->
-      ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) ) 10 [10,20,50] model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
+      ( Model abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) ) model.rowCount model.listOfPossibleRowCounts model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
     Types.AbfahrtenEnvelopIsLoaded (Err e) ->
       ({ model | feedback = httpErrorString e }, Cmd.none) 

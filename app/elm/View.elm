@@ -113,13 +113,13 @@ renderAbfahrt index a =
     ]
 
 
-renderAbfahrten : List Abfahrt -> Html Msg
-renderAbfahrten abfahrten =
+renderAbfahrten : Model -> List Abfahrt -> Html Msg
+renderAbfahrten model abfahrten =
     table [ class "table table-hover" ]
         [ thead []
             [ tr []
                 [ th []
-                    [ renderBatchdropdown Types.BatchDropDownSelected 20 [10,20,50]  ]
+                    [ renderBatchdropdown Types.BatchDropDownSelected model.rowCount model.listOfPossibleRowCounts  ]
                 , th []
                     [ text "Uhrzeit" ]
                 , th []
@@ -171,7 +171,7 @@ rootView model =
 
             , show_alert_if_text (user_feedback_msg model)
 
-            , renderAbfahrten model.abfahrten.departureData
+            , renderAbfahrten model model.abfahrten.departureData
 
             ]
 
