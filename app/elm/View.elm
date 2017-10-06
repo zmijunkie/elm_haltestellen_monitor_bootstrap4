@@ -76,7 +76,7 @@ renderBatchdropdown msg rowCount listOfPossibleRowCounts =
                    attribute "data-toggle" "dropdown", 
                    id "dropdownMenuButton", type_ "button" ]
             [ text (toString rowCount) ] 
-        , div [ attribute "aria-labelledby" "dropdownMenuButton", class "dropdown-menu" ]
+        , div [ attribute "aria-labelledby" "dropdownMenuButton", class "dropdown-menu" ] -- Types.BatchDropDownSelected bitte senden wenn hier was passiert ;-)
 
             (List.map renderDropdownItem (List.filter (\x ->(x/=rowCount)) listOfPossibleRowCounts))
         ]
