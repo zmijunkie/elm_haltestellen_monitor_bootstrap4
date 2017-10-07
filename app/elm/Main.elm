@@ -53,7 +53,7 @@ initalFeedback =
 
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
-    ( Model initialStations (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) 10 [10,20,50,100] initialOptOut initalFeedback
+    ( Model initialStations [] 10 [10,20,50,100] initialOptOut initalFeedback
     , getAbfahrten initialStations initialOptOutList initialOptOut
     )
 
@@ -91,7 +91,7 @@ update msg model =
                 (Station abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName)
                 
       in 
-        ( Model [station] abfahrten model.rowCount model.listOfPossibleRowCounts model.optOut  ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
+        ( Model [station] [abfahrten] model.rowCount model.listOfPossibleRowCounts model.optOut  ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
     Types.AbfahrtenEnvelopIsLoaded (Err e) ->
       ({ model | feedback = httpErrorString e }, Cmd.none) 

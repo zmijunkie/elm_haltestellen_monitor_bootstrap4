@@ -62,7 +62,7 @@ type alias Station =
 
 type alias Model =
   { stations  : List Station
-  , abfahrten : Abfahrten
+  , abfahrten : List Abfahrten -- jedes Element enthält Abfahrten einer Station
   , rowCount : Int
   , listOfPossibleRowCounts : List Int
   , optOut : Dict.Dict String Bool 

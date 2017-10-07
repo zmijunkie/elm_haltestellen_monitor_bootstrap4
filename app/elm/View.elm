@@ -175,7 +175,7 @@ rootView model =
 
             , show_alert_if_text (user_feedback_msg model)
 
-            , renderAbfahrten model model.abfahrten.departureData
+            , renderList ((List.map .departureData)  model.abfahrten) (renderAbfahrten model)
 
             ]
 
