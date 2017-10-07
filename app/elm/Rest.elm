@@ -13,7 +13,7 @@ import String
 import Dict
 import Maybe
 
-import Types exposing (AbfahrtenEnvelop,Stationsinfo,AbfahrtEnvelop,Abfahrten,Abfahrt,Msg)
+import Types exposing (AbfahrtenEnvelop,Station,Stationsinfo,AbfahrtEnvelop,Abfahrten,Abfahrt,Msg)
 
 
 -- http://stackoverflow.com/questions/40736079/how-to-convert-from-string-to-int-in-json-decoder-in-elm-core-5-0-0?rq=1
@@ -89,16 +89,24 @@ elementIndexesInListWhichHaveTupleSecondSetToTrueInDict aDict aList =
     --von diesen nur die in aDict gewählten: (1,"transport_bus", 2,"transport_ice", )
     List.map Tuple.first (List.filter (\x ->(Maybe.withDefault False ( Dict.get (Tuple.second x) aDict))) (List.indexedMap (\i x -> ((toString i),Tuple.first x) ) aList)  ) 
 
-getAbfahrten : Int -> List ( String, Bool ) -> Dict.Dict String Bool -> Cmd Msg
-getAbfahrten stationId inititionalOptOutList optOutDict =
+getAbfahrten : List Station -> List ( String, Bool ) -> Dict.Dict String Bool -> Cmd Msg
+getAbfahrten stations inititionalOptOutList optOutDict =
 
     let transport = 
-        
         String.join ","  (elementIndexesInListWhichHaveTupleSecondSetToTrueInDict optOutDict inititionalOptOutList)
+
+        stationId = 
+            case List.head stations of                  
+              Nothing ->                              
+                -1                 -- fake station id
+              Just val ->                             
+                val.stationId
+        
+        
 
     in
         HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
-            |> withQueryParams [ ("stationId", (toString stationId) )
+            |> withQueryParams [ ("stationId", (toString stationId ))
                                 ,("transport", transport) 
                                 ,("rowCount", (toString 10))
                                 ,("distance", (toString 0))

@@ -1,4 +1,4 @@
-module Types exposing (AbfahrtenEnvelop,Abfahrten,Stationsinfo,AbfahrtEnvelop,Abfahrt,Model,Msg(..) )
+module Types exposing (AbfahrtenEnvelop,Abfahrten,Station,Stationsinfo,AbfahrtEnvelop,Abfahrt,Model,Msg(..) )
 
 
 import Http
@@ -18,6 +18,8 @@ type alias Stationsinfo =
     , automat : String
     , treppe : String
     }
+
+
 
 
 type alias AbfahrtEnvelop =
@@ -49,16 +51,17 @@ type alias Abfahrten =
 
 }
 
+-- used in View only
 type alias Station =
- {   stationId : Int  
- }
+    { stationId : Int
+    , stationName : String
+    }
 
 
 -- MODEL
 
 type alias Model =
-  { stationId : Int          -- besser:  , stations  : List Station
-  , stationName : String
+  { stations  : List Station
   , abfahrten : Abfahrten
   , rowCount : Int
   , listOfPossibleRowCounts : List Int

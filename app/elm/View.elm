@@ -11,6 +11,7 @@ import Types exposing (Abfahrt,Model,Msg)
 import Dict
 import Maybe
 import List
+import String
 -- import Json
 
 show_alert_if_text : String -> Html msg
@@ -158,7 +159,7 @@ rootView model =
         , div [ class "input-group input-group-lg" ]
             [ span [ class "input-group-addon", id "sizing-addon1" ]
                 [ text "Von" ]
-            , input [ onInput Types.UserTypedStationName, attribute "aria-describedby" "sizing-addon1", class "form-control", placeholder model.stationName, Html.Attributes.type_ "text" ]
+            , input [ onInput Types.UserTypedStationName, attribute "aria-describedby" "sizing-addon1", class "form-control", placeholder (String.join "," (List.map  .stationName model.stations)), Html.Attributes.type_ "text" ]
                 []
             ]            
 
