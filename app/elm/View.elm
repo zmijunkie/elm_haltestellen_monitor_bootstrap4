@@ -140,7 +140,7 @@ renderAbfahrten model abfahrten =
 
 renderList lst renderer =
     ul []
-        (List.map (\l -> li [] [ renderer l ]) lst)
+        (List.map (\l -> li [] [  text "foo", renderer l ]) lst)
         
 -- VIEW
 

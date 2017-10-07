@@ -73,8 +73,7 @@ main =
 toggleOptOutForKey: Dict.Dict String Bool -> String -> Dict.Dict String Bool
 toggleOptOutForKey optOut key =
     Dict.update key (\_ -> Just ( (Dict.get key optOut)== Just(False) )) optOut
-
-
+    
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
@@ -88,37 +87,37 @@ update msg model =
       let abfahrten = 
                 (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )
           station = 
-                (Station abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName)
+                (Station abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName) -- nice be we do not use this variable
                 
       in 
-        ( Model [station] [abfahrten] model.rowCount model.listOfPossibleRowCounts model.optOut  ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
+        ( Model model.stations (model.abfahrten++[abfahrten]) model.rowCount model.listOfPossibleRowCounts model.optOut  ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
     Types.AbfahrtenEnvelopIsLoaded (Err e) ->
       ({ model | feedback = httpErrorString e }, Cmd.none) 
       
     Types.BatchDropDownSelected ->
-      ({ model | feedback = "BatchDropDownSelected ..."}, Cmd.none) 
+      ({ model | abfahrten=[] , feedback = "BatchDropDownSelected ..."}, Cmd.none) 
 
     Types.Toggle_ICE ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_ice" ))
+      ({ model | abfahrten=[] , optOut = toggleOptOutForKey model.optOut "transport_ice" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_ice" ))
 
     Types.Toggle_Zug ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_zug" ))
+      ({ model | abfahrten=[] , optOut = toggleOptOutForKey model.optOut "transport_zug" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_zug" ))
 
     Types.Toggle_Sbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_sbahn" ))
+      ({ model | abfahrten=[] , optOut = toggleOptOutForKey model.optOut "transport_sbahn" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_sbahn" ))
 
     Types.Toggle_Ubahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_ubahn" ))
+      ({ model | abfahrten=[] , optOut = toggleOptOutForKey model.optOut "transport_ubahn" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_ubahn" ))
 
     Types.Toggle_Strassenbahn ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_strassenbahn" ))
+      ({ model | abfahrten=[] , optOut = toggleOptOutForKey model.optOut "transport_strassenbahn" } , getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_strassenbahn" ))
 
     Types.Toggle_Bus ->
-      ({ model | optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_bus"))
+      ({ model | abfahrten=[] , optOut = toggleOptOutForKey model.optOut "transport_bus" }, getAbfahrten model.stations initialOptOutList (toggleOptOutForKey model.optOut "transport_bus"))
 
     Types.Tick _ ->
-      ( { model | feedback = "Aktualisierung ..." },  getAbfahrten model.stations initialOptOutList model.optOut)
+      ( { model | abfahrten=[] , feedback = "Aktualisierung ..." },  getAbfahrten model.stations initialOptOutList model.optOut)
 
 -- SUBSCRIPTIONS
 -- https://github.com/aeveris/super-spotlight/blob/312b59b5ed3e3256caac2f6bfb19d227a3ef6e9f/src/Main.elm#L89
