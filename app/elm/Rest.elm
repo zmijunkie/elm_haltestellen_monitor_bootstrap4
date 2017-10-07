@@ -89,6 +89,23 @@ elementIndexesInListWhichHaveTupleSecondSetToTrueInDict aDict aList =
     --von diesen nur die in aDict gewählten: (1,"transport_bus", 2,"transport_ice", )
     List.map Tuple.first (List.filter (\x ->(Maybe.withDefault False ( Dict.get (Tuple.second x) aDict))) (List.indexedMap (\i x -> ((toString i),Tuple.first x) ) aList)  ) 
 
+postQuery : Int -> String -> Int -> Int -> Cmd Msg
+postQuery stationId transport rowCount distance =
+    HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
+        |> withQueryParams [ ("stationId", (toString stationId ))
+                            ,("transport", transport) 
+                            ,("rowCount", (toString 10))
+                            ,("distance", (toString distance))
+                            ]
+                            
+        |> withTimeout (10 * Time.second)
+        |> withExpect (Http.expectJson abfahrtenEnvelopDecoder)
+        |> withCredentials
+        |> send Types.AbfahrtenEnvelopIsLoaded
+
+--      |> withJsonBody (itemEncoder item)
+--      |> withHeader "Origin" "haltestellenmonitor.vrr.de"
+
 getAbfahrten : List Station -> List ( String, Bool ) -> Dict.Dict String Bool -> Cmd Msg
 getAbfahrten stations inititionalOptOutList optOutDict =
 
@@ -105,17 +122,6 @@ getAbfahrten stations inititionalOptOutList optOutDict =
         
 
     in
-        HttpBuilder.post "http://localhost:5000/abfahrten_for_station"
-            |> withQueryParams [ ("stationId", (toString stationId ))
-                                ,("transport", transport) 
-                                ,("rowCount", (toString 10))
-                                ,("distance", (toString 0))
-                                ]
-                                
-            |> withTimeout (10 * Time.second)
-            |> withExpect (Http.expectJson abfahrtenEnvelopDecoder)
-            |> withCredentials
-            |> send Types.AbfahrtenEnvelopIsLoaded
-    
-    --      |> withJsonBody (itemEncoder item)
-    --      |> withHeader "Origin" "haltestellenmonitor.vrr.de"
+
+        postQuery stationId transport 10 0
+
