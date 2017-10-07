@@ -159,7 +159,10 @@ rootView model =
         , div [ class "input-group input-group-lg" ]
             [ span [ class "input-group-addon", id "sizing-addon1" ]
                 [ text "Von" ]
-            , input [ onInput Types.UserTypedStationName, attribute "aria-describedby" "sizing-addon1", class "form-control", placeholder (String.join "," (List.map  .stationName model.stations)), Html.Attributes.type_ "text" ]
+            , input [ onInput Types.UserTypedStationName, attribute "aria-describedby" "sizing-addon1"
+                      ,class "form-control"
+                      , placeholder (String.join ";" (List.map  .stationName model.stations))
+                      , Html.Attributes.type_ "text" ]
                 []
             ]            
 

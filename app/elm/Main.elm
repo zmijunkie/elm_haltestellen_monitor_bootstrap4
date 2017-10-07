@@ -47,9 +47,13 @@ initialStations =
     ,(Station 20000825 "Dorstfeld Süd")
     ]
 
+initalFeedback: String
+initalFeedback =
+    ""
+
 initialState : ( Model , Cmd Msg ) -- https://github.com/elm-lang/elm-compiler/blob/0.18.0/hints/type-annotations.md
 initialState =
-    ( Model initialStations (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) 10 [10,20,50,100] initialOptOut "" ""
+    ( Model initialStations (Abfahrten 20000131 "Dortmund, Hbf" [ ] ) 10 [10,20,50,100] initialOptOut initalFeedback
     , getAbfahrten initialStations initialOptOutList initialOptOut
     )
 
@@ -81,7 +85,13 @@ update msg model =
       ({ model | feedback = "Ihre Eingabe:" ++ someStationName}, Cmd.none)
 
     Types.AbfahrtenEnvelopIsLoaded (Ok abfahrtenEnvelop) ->
-      ( Model [(Station abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName)] (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) ) model.rowCount model.listOfPossibleRowCounts model.optOut "abfrage ..." ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
+      let abfahrten = 
+                (Abfahrten abfahrtenEnvelop.stationId  abfahrtenEnvelop.stationName ( List.map .abfahrt abfahrtenEnvelop.abfahrten) )
+          station = 
+                (Station abfahrtenEnvelop.stationId abfahrtenEnvelop.stationName)
+                
+      in 
+        ( Model [station] abfahrten model.rowCount model.listOfPossibleRowCounts model.optOut  ("Aktualisiert für: " ++ abfahrtenEnvelop.stationName)  , Cmd.none )
 
     Types.AbfahrtenEnvelopIsLoaded (Err e) ->
       ({ model | feedback = httpErrorString e }, Cmd.none) 

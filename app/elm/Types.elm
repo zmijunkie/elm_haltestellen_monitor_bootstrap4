@@ -66,7 +66,6 @@ type alias Model =
   , rowCount : Int
   , listOfPossibleRowCounts : List Int
   , optOut : Dict.Dict String Bool 
-  , lastQuery : String
   , feedback : String
   }
 
