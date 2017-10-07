@@ -112,16 +112,18 @@ getAbfahrten stations inititionalOptOutList optOutDict =
     let transport = 
         String.join ","  (elementIndexesInListWhichHaveTupleSecondSetToTrueInDict optOutDict inititionalOptOutList)
 
-        stationId = 
+        firstStationId = 
             case List.head stations of                  
               Nothing ->                              
                 -1                 -- fake station id
               Just val ->                             
                 val.stationId
         
+        stationIds =
+            List.map .stationId stations
         
 
     in
-
-        postQuery stationId transport 10 0
+       Cmd.batch (List.map (\stationId -> postQuery stationId transport 10 0 ) stationIds)
+       
 
