@@ -140,7 +140,7 @@ renderAbfahrten model abfahrten =
 
 renderList lst renderer =
     ul []
-        (List.map (\l -> li [] [  text "foo", renderer l ]) lst)
+        (List.map (\l -> li [] [  text l.stationName, renderer l.departureData ]) lst)
         
 -- VIEW
 
@@ -175,7 +175,7 @@ rootView model =
 
             , show_alert_if_text (user_feedback_msg model)
 
-            , renderList ((List.map .departureData)  model.abfahrten) (renderAbfahrten model)
+            , renderList model.abfahrten (renderAbfahrten model)
 
             ]
 
