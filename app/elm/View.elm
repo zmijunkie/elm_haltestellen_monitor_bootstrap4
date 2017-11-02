@@ -143,6 +143,8 @@ renderList lst renderer =
         (List.map (\l -> li [] [  text l.stationName, renderer l.departureData ]) lst)
         
 -- VIEW
+-- https://phraseapp.com/blog/posts/filterable-dropdown-menu-in-elm/
+-- https://kirchner.github.io/elm-selectize/
 
 rootView : Model -> Html Msg
 rootView model =
