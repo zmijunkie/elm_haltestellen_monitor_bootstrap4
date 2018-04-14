@@ -12,6 +12,8 @@ def usage():
              so benutzt man das programm zB: --stationId=20000439   (Sengsbank)
              so benutzt man das programm zB: --stationId=20000825   (Dorstfeld Süd)
              
+             so benutzt man das programm zB: --stationId=20000036   (Dortmund, An der Palmweide)
+             
              so benutzt man das programm zB: --stationId=20000001   (kleinste ?)
              so benutzt man das programm zB: --stationId=20009849   (grösste ?)
              
